@@ -30,36 +30,51 @@
             font-size: 1.5rem;
         }
 
-        .intro-section {
+        /* Intro Screen */
+        .intro-screen {
             background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            color: white;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            display: none;
-        }
-
-        .intro-section.visible {
-            display: block;
-        }
-
-        .intro-toggle {
-            display: block;
-            margin: 0 auto 15px auto;
-            padding: 8px 20px;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
             border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .intro-screen p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .start-btn {
+            padding: 15px 40px;
+            background: white;
+            border: none;
+            color: #1e3c72;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 1.1rem;
+            font-weight: bold;
             transition: all 0.3s ease;
         }
 
-        .intro-toggle:hover {
-            background: rgba(255,255,255,0.25);
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Flashcard Screen */
+        .flashcard-screen {
+            display: none;
+        }
+
+        .flashcard-screen.visible {
+            display: block;
+        }
+
+        .intro-screen.hidden {
+            display: none;
         }
 
         .language-toggle {
@@ -157,15 +172,6 @@
             overflow-y: auto;
         }
 
-        .card-number {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            font-size: 0.9rem;
-            opacity: 0.6;
-            font-weight: bold;
-        }
-
         .card-title {
             font-size: 1.5rem;
             font-weight: bold;
@@ -182,7 +188,7 @@
         .card-definition {
             font-size: 1rem;
             line-height: 1.5;
-            max-height: 280px;
+            max-height: 300px;
             overflow-y: auto;
             padding: 0 10px;
         }
@@ -295,6 +301,14 @@
             .nav-btn {
                 padding: 12px 25px;
             }
+
+            .intro-screen {
+                padding: 20px;
+            }
+
+            .intro-screen p {
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
@@ -307,42 +321,43 @@
             <button class="lang-btn" onclick="setLanguage('en')">English</button>
         </div>
 
-        <button class="intro-toggle" id="introToggle" onclick="toggleIntro()">ℹ️ Ver Introdução</button>
-        
-        <div class="intro-section" id="introSection">
+        <!-- Intro Screen -->
+        <div class="intro-screen" id="introScreen">
             <p id="introText"></p>
+            <button class="start-btn" id="startBtn" onclick="startFlashcards()">Começar →</button>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+        <!-- Flashcard Screen -->
+        <div class="flashcard-screen" id="flashcardScreen">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
 
-        <div class="counter" id="counter">Cartão 1 de 14</div>
+            <div class="counter" id="counter">Cartão 1 de 14</div>
 
-        <div class="flashcard-container">
-            <div class="flashcard" id="flashcard" onclick="flipCard()">
-                <div class="flashcard-face flashcard-front">
-                    <span class="card-number" id="cardNumber">#1</span>
-                    <div class="card-title" id="cardTitle">Carregando...</div>
-                    <div class="card-subtitle" id="cardSubtitle"></div>
-                    <div class="tap-hint" id="tapHint">Toque para ver a definição</div>
-                </div>
-                <div class="flashcard-face flashcard-back">
-                    <span class="card-number" id="cardNumberBack">#1</span>
-                    <div class="card-definition" id="cardDefinition">Carregando...</div>
-                    <div class="tap-hint" id="tapHintBack">Toque para voltar</div>
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-face flashcard-front">
+                        <div class="card-title" id="cardTitle">Carregando...</div>
+                        <div class="card-subtitle" id="cardSubtitle"></div>
+                        <div class="tap-hint" id="tapHint">Toque para ver a definição</div>
+                    </div>
+                    <div class="flashcard-face flashcard-back">
+                        <div class="card-definition" id="cardDefinition">Carregando...</div>
+                        <div class="tap-hint" id="tapHintBack">Toque para voltar</div>
+                    </div>
                 </div>
             </div>
+
+            <div class="navigation">
+                <button class="nav-btn prev" id="prevBtn" onclick="prevCard()">← Anterior</button>
+                <button class="nav-btn next" id="nextBtn" onclick="nextCard()">Próximo →</button>
+            </div>
+
+            <button class="shuffle-btn" id="shuffleBtn" onclick="shuffleCards()">🔀 Embaralhar</button>
+
+            <div class="dots-container" id="dotsContainer"></div>
         </div>
-
-        <div class="navigation">
-            <button class="nav-btn prev" id="prevBtn" onclick="prevCard()">← Anterior</button>
-            <button class="nav-btn next" id="nextBtn" onclick="nextCard()">Próximo →</button>
-        </div>
-
-        <button class="shuffle-btn" id="shuffleBtn" onclick="shuffleCards()">🔀 Embaralhar</button>
-
-        <div class="dots-container" id="dotsContainer"></div>
     </div>
 
     <script>
@@ -355,8 +370,7 @@
                 prev: "← Previous",
                 next: "Next →",
                 shuffle: "🔀 Shuffle Cards",
-                introToggleShow: "ℹ️ Show Introduction",
-                introToggleHide: "ℹ️ Hide Introduction",
+                startBtn: "Start →",
                 intro: "In this fictional incident, you saw the application of several fundamental ICS characteristics, such as Management by Objectives, Integrated Communications, Incident Facilities, and Span of Control.\n\nHowever, the success of any operation depends on understanding all 14 characteristics that form the foundation of the system. Each one, listed below, is critical for a coordinated and effective response using ICS. To deepen your knowledge and prepare to manage incidents of any size, nature, and complexity, we recommend that you review each characteristic.",
                 cards: [
                     {
@@ -439,8 +453,7 @@
                 prev: "← Anterior",
                 next: "Próximo →",
                 shuffle: "🔀 Embaralhar",
-                introToggleShow: "ℹ️ Ver Introdução",
-                introToggleHide: "ℹ️ Ocultar Introdução",
+                startBtn: "Começar →",
                 intro: "Neste incidente fictício, você viu a aplicação de várias características fundamentais do SCI, como Gerenciamento por Objetivos, Comunicações Integradas, Instalações do Incidente e Amplitude de Controle.\n\nNo entanto, o sucesso de qualquer operação depende da compreensão de todas as 14 características que formam a base do sistema. Cada uma delas, listada a seguir, é crítica para uma resposta coordenada e eficaz usando o SCI. Para aprofundar seu conhecimento e se preparar para gerenciar incidentes de qualquer tamanho, natureza e complexidade, recomendamos que você revise cada característica.",
                 cards: [
                     {
@@ -522,36 +535,14 @@
         let cardOrder = [...Array(14).keys()];
         let viewedCards = new Set();
         let isFlipped = false;
-        let introVisible = false;
 
         function setLanguage(lang) {
             currentLanguage = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.lang-btn[onclick="setLanguage('${lang}')"]`).classList.add('active');
             updateUI();
-            updateCard();
             updateIntro();
-        }
-
-        function toggleIntro() {
-            introVisible = !introVisible;
-            const introSection = document.getElementById('introSection');
-            const introToggle = document.getElementById('introToggle');
-            const data = cardsData[currentLanguage];
-            
-            if (introVisible) {
-                introSection.classList.add('visible');
-                introToggle.textContent = data.introToggleHide;
-            } else {
-                introSection.classList.remove('visible');
-                introToggle.textContent = data.introToggleShow;
-            }
-        }
-
-        function updateIntro() {
-            const data = cardsData[currentLanguage];
-            document.getElementById('introText').textContent = data.intro;
-            document.getElementById('introToggle').textContent = introVisible ? data.introToggleHide : data.introToggleShow;
+            updateCard();
         }
 
         function updateUI() {
@@ -560,6 +551,17 @@
             document.getElementById('prevBtn').textContent = data.prev;
             document.getElementById('nextBtn').textContent = data.next;
             document.getElementById('shuffleBtn').textContent = data.shuffle;
+            document.getElementById('startBtn').textContent = data.startBtn;
+        }
+
+        function updateIntro() {
+            const data = cardsData[currentLanguage];
+            document.getElementById('introText').textContent = data.intro;
+        }
+
+        function startFlashcards() {
+            document.getElementById('introScreen').classList.add('hidden');
+            document.getElementById('flashcardScreen').classList.add('visible');
         }
 
         function updateCard() {
@@ -567,8 +569,6 @@
             const cardIndex = cardOrder[currentIndex];
             const card = data.cards[cardIndex];
             
-            document.getElementById('cardNumber').textContent = `#${cardIndex + 1}`;
-            document.getElementById('cardNumberBack').textContent = `#${cardIndex + 1}`;
             document.getElementById('cardTitle').textContent = card.title;
             document.getElementById('cardSubtitle').textContent = card.subtitle;
             document.getElementById('cardDefinition').textContent = card.definition;
@@ -690,8 +690,8 @@
         // Initialize
         createDots();
         updateUI();
-        updateCard();
         updateIntro();
+        updateCard();
     </script>
 </body>
 </html>
