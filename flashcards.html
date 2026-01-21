@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 Características do SCI / ICS 14 Principles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .lang-btn {
+            padding: 10px 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: #1e3c72;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .counter {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+            color: #1e3c72;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(145deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            transform: rotateY(180deg);
+            overflow-y: auto;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.6;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .card-definition {
+            font-size: 1rem;
+            line-height: 1.5;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 0 10px;
+        }
+
+        .tap-hint {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .nav-btn.prev {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .nav-btn.next {
+            background: white;
+            color: #1e3c72;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .shuffle-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 12px 25px;
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .shuffle-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .dot.viewed {
+            background: rgba(76, 175, 80, 0.7);
+        }
+
+        @media (max-width: 480px) {
+            .flashcard-container {
+                height: 380px;
+            }
+            
+            .card-title {
+                font-size: 1.3rem;
+            }
+            
+            .card-subtitle {
+                font-size: 0.85rem;
+            }
+            
+            .card-definition {
+                font-size: 0.95rem;
+            }
+            
+            .nav-btn {
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="mainTitle">14 Características do SCI</h1>
+        
+        <div class="language-toggle">
+            <button class="lang-btn active" onclick="setLanguage('pt')">Português</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="counter" id="counter">Cartão 1 de 14</div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-face flashcard-front">
+                    <span class="card-number" id="cardNumber">#1</span>
+                    <div class="card-title" id="cardTitle">Carregando...</div>
+                    <div class="card-subtitle" id="cardSubtitle"></div>
+                    <div class="tap-hint" id="tapHint">Toque para ver a definição</div>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                    <span class="card-number" id="cardNumberBack">#1</span>
+                    <div class="card-definition" id="cardDefinition">Carregando...</div>
+                    <div class="tap-hint" id="tapHintBack">Toque para voltar</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn prev" id="prevBtn" onclick="prevCard()">← Anterior</button>
+            <button class="nav-btn next" id="nextBtn" onclick="nextCard()">Próximo →</button>
+        </div>
+
+        <button class="shuffle-btn" id="shuffleBtn" onclick="shuffleCards()">🔀 Embaralhar</button>
+
+        <div class="dots-container" id="dotsContainer"></div>
+    </div>
+
+    <script>
+        const cardsData = {
+            en: {
+                title: "14 Principles of ICS",
+                tapHint: "Tap to see definition",
+                tapHintBack: "Tap to flip back",
+                cardOf: "Card {current} of {total}",
+                prev: "← Previous",
+                next: "Next →",
+                shuffle: "🔀 Shuffle Cards",
+                cards: [
+                    {
+                        title: "Common Terminology",
+                        subtitle: "Terminologia Comum",
+                        definition: "The use of common terminology helps define organizational functions, incident facilities, resource descriptions, and position titles. This ensures clear communication among all agencies and jurisdictions during incident operations."
+                    },
+                    {
+                        title: "Modular Organization",
+                        subtitle: "Organização Modular",
+                        definition: "The incident command organizational structure develops in a modular fashion based on the size and complexity of the incident, as well as the specifics of the hazard environment created by the incident."
+                    },
+                    {
+                        title: "Management by Objectives",
+                        subtitle: "Gerenciamento por Objetivos",
+                        definition: "Involves establishing specific, measurable objectives; developing strategies based on incident objectives; and documenting results to measure performance and facilitate corrective action."
+                    },
+                    {
+                        title: "Incident Action Plan",
+                        subtitle: "Plano de Ação do Incidente",
+                        definition: "Incident Action Plans (IAPs) provide a consistent means of communicating overall incident objectives in the context of both operational and support activities. The IAP provides personnel with direction for achieving incident objectives."
+                    },
+                    {
+                        title: "Manageable Span of Control",
+                        subtitle: "Amplitude de Controle",
+                        definition: "Span of control is key to effective and efficient incident management. Within ICS, the span of control for any supervisor should be between 3 and 7 subordinates, with 5 being optimal."
+                    },
+                    {
+                        title: "Incident Facilities and Locations",
+                        subtitle: "Locais e Instalações no Incidente",
+                        definition: "Various types of operational and support facilities are established in the vicinity of an incident. Common facilities include the Incident Command Post, Bases, Camps, Staging Areas, Mass Casualty Triage Areas, and others as required."
+                    },
+                    {
+                        title: "Comprehensive Resource Management",
+                        subtitle: "Gerenciamento Integral de Recursos",
+                        definition: "Maintaining an accurate and up-to-date picture of resource needs for incident containment is a critical component of emergency management. Resources are defined as personnel, teams, equipment, supplies, and facilities by category, kind, type, and capability."
+                    },
+                    {
+                        title: "Integrated Communications",
+                        subtitle: "Comunicações Integradas",
+                        definition: "Incident communications are facilitated through the development and use of a common communications plan, clear distinction between formal, informal, and critical communications, clarity of information passed, and interoperable communications processes and architectures."
+                    },
+                    {
+                        title: "Establishment and Transfer of Command",
+                        subtitle: "Estabelecimento e Transferência do Comando",
+                        definition: "The command function must be clearly established from the beginning of an incident. When command is transferred, the process includes a briefing that transfers all essential information for continuing safe and effective operations."
+                    },
+                    {
+                        title: "Chain of Command and Unity of Command",
+                        subtitle: "Cadeia de Comando e Unidade de Comando",
+                        definition: "Chain of command refers to the orderly line of authority within the incident management organizational structure. Unity of command means each individual reports to only one designated supervisor, clarifying reporting relationships and eliminating confusion."
+                    },
+                    {
+                        title: "Unified Command",
+                        subtitle: "Comando Unificado",
+                        definition: "In incidents involving multiple jurisdictions or agencies, Unified Command allows agencies with different legal, geographic, and functional responsibilities to work together effectively without affecting individual agency authority, responsibility, or accountability."
+                    },
+                    {
+                        title: "Accountability",
+                        subtitle: "Responsabilização",
+                        definition: "Effective accountability at all jurisdictional levels and within functional areas is essential. This includes: check-in procedures, Incident Action Plan, unity of command, personal responsibility, span of control, and resource tracking."
+                    },
+                    {
+                        title: "Dispatch/Deployment",
+                        subtitle: "Despacho e Mobilização de Recursos",
+                        definition: "Personnel and equipment should be deployed to an incident only when requested by the Incident Command or designated personnel, or when dispatched by competent authority based on prior requisition or deemed necessary by the Incident Command."
+                    },
+                    {
+                        title: "Information and Intelligence Management",
+                        subtitle: "Gerenciamento de Informações e Inteligência",
+                        definition: "The incident organization must establish a process for gathering, analyzing, assessing, and appropriately sharing sensitive information that may be classified as reserved, restricted, or confidential, including establishing controls over who disseminates and who may access such information."
+                    }
+                ]
+            },
+            pt: {
+                title: "14 Características do SCI",
+                tapHint: "Toque para ver a definição",
+                tapHintBack: "Toque para voltar",
+                cardOf: "Cartão {current} de {total}",
+                prev: "← Anterior",
+                next: "Próximo →",
+                shuffle: "🔀 Embaralhar",
+                cards: [
+                    {
+                        title: "Terminologia Comum",
+                        subtitle: "Common Terminology",
+                        definition: "O uso de uma terminologia comum ajuda a definir as funções organizacionais, instalações de incidentes, descrições de recursos e cargos."
+                    },
+                    {
+                        title: "Organização Modular",
+                        subtitle: "Modular Organization",
+                        definition: "A estrutura organizacional do comando de incidentes se desenvolve de modo modular com base na dimensão e complexidade do incidente, bem como nos detalhes específicos do risco criado pelo incidente."
+                    },
+                    {
+                        title: "Gerenciamento por Objetivos",
+                        subtitle: "Management by Objectives",
+                        definition: "Significa o estabelecimento de objetivos ambiciosos, o desenvolvimento de estratégias baseadas nos objetivos do incidente, o estabelecimento de objetivos específicos e mensuráveis para as diversas atividades funcionais e documentação de resultados para medir o desempenho e facilitar ações de correção."
+                    },
+                    {
+                        title: "Plano de Ação do Incidente",
+                        subtitle: "Incident Action Plan",
+                        definition: "Os Planos de Ação do Incidente (PAI) fornecem um meio condizente de comunicar os objetivos gerais do incidente nos contextos das atividades operacionais e de apoio."
+                    },
+                    {
+                        title: "Amplitude de Controle",
+                        subtitle: "Manageable Span of Control",
+                        definition: "O escopo do controle é a chave para um gerenciamento eficaz e eficiente de incidentes. Dentro do SCI, o escopo do controle de qualquer indivíduo com responsabilidade de supervisão deve variar de três a sete subordinados, sendo cinco o ideal."
+                    },
+                    {
+                        title: "Locais e Instalações no Incidente",
+                        subtitle: "Incident Facilities and Locations",
+                        definition: "São criados vários tipos de locais de instalação de operação e apoio nas proximidades de um incidente. As instalações comuns incluem postos de comando de incidentes, bases, acampamentos, áreas de espera, áreas de triagem de vítimas em massa e outras, conforme o caso."
+                    },
+                    {
+                        title: "Gerenciamento Integral de Recursos",
+                        subtitle: "Comprehensive Resource Management",
+                        definition: "Manter uma imagem precisa e atualizada dos recursos necessários para a contenção de um incidente é um componente fundamental no gerenciamento de uma emergência. Os recursos são definidos como: pessoal, equipes, equipamentos, suprimentos e instalações disponíveis, em razão da categoria, classe, tipo e capacidade desses recursos."
+                    },
+                    {
+                        title: "Comunicações Integradas",
+                        subtitle: "Integrated Communications",
+                        definition: "As comunicações dos incidentes são facilitadas por meio do desenvolvimento e uso de um plano de comunicação comum, distinção clara de comunicação formal, informal e crítica, clareza das informações repassadas e processos e arquiteturas de tecnologia de informação e de comunicação interoperáveis."
+                    },
+                    {
+                        title: "Estabelecimento e Transferência do Comando",
+                        subtitle: "Establishment and Transfer of Command",
+                        definition: "A função de comando deve ser claramente estabelecida desde o início de um incidente. Quando o comando é transferido, o processo inclui uma orientação operacional que transfere todas as informações essenciais para operações seguras e eficazes de forma contínua."
+                    },
+                    {
+                        title: "Cadeia de Comando e Unidade de Comando",
+                        subtitle: "Chain of Command and Unity of Command",
+                        definition: "A cadeia de comando refere-se à linha hierárquica de autoridade ordenada dentro da estrutura da organização de gerenciamento de incidentes. A unidade de comando significa que cada indivíduo tem um supervisor designado a quem se reportar no local do incidente. Esses princípios esclarecem as relações de informação e eliminam a confusão."
+                    },
+                    {
+                        title: "Comando Unificado",
+                        subtitle: "Unified Command",
+                        definition: "Em incidentes que envolvem uma única jurisdição com várias agências, ou diversas jurisdições com diferentes agências atuando em conjunto, o Comando Unificado permite que os órgãos com diferentes atribuições legais, geográficas e funcionais trabalhem juntos de maneira eficaz, sem afetar a autoridade, responsabilidade e competência delas."
+                    },
+                    {
+                        title: "Responsabilização",
+                        subtitle: "Accountability",
+                        definition: "A responsabilização efetiva em todos os níveis jurisdicionais e dentro das diferentes áreas funcionais é essencial. Para isso, os seguintes princípios devem ser seguidos: Registro, Plano de Ação do Incidente, Unidade de comando, Responsabilidade pessoal, Amplitude de controle e Rastreamento de recursos."
+                    },
+                    {
+                        title: "Despacho e Mobilização de Recursos",
+                        subtitle: "Dispatch/Deployment",
+                        definition: "O pessoal e o equipamento devem ser empregados em um incidente apenas quando necessário e quando solicitado pelo Comando do Incidente, ou por pessoa por ele designada, ou quando enviados por autoridade competente em razão de uma requisição prévia ou considerada necessária pelo Comando do Incidente."
+                    },
+                    {
+                        title: "Gerenciamento de Informações e Inteligência",
+                        subtitle: "Information and Intelligence Management",
+                        definition: "A EOR, em determinados tipos de incidentes e/ou eventos onde existem informações sensíveis que sejam classificadas como reservadas, restritas e confidenciais, deve estabelecer um processo para a coleta, avaliação, análise e compartilhamento adequado dessas informações por meio de uma célula composta por especialista(s) nessa área."
+                    }
+                ]
+            }
+        };
+
+        let currentLanguage = 'pt';
+        let currentIndex = 0;
+        let cardOrder = [...Array(14).keys()];
+        let viewedCards = new Set();
+        let isFlipped = false;
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="setLanguage('${lang}')"]`).classList.add('active');
+            updateUI();
+            updateCard();
+        }
+
+        function updateUI() {
+            const data = cardsData[currentLanguage];
+            document.getElementById('mainTitle').textContent = data.title;
+            document.getElementById('prevBtn').textContent = data.prev;
+            document.getElementById('nextBtn').textContent = data.next;
+            document.getElementById('shuffleBtn').textContent = data.shuffle;
+        }
+
+        function updateCard() {
+            const data = cardsData[currentLanguage];
+            const cardIndex = cardOrder[currentIndex];
+            const card = data.cards[cardIndex];
+            
+            document.getElementById('cardNumber').textContent = `#${cardIndex + 1}`;
+            document.getElementById('cardNumberBack').textContent = `#${cardIndex + 1}`;
+            document.getElementById('cardTitle').textContent = card.title;
+            document.getElementById('cardSubtitle').textContent = card.subtitle;
+            document.getElementById('cardDefinition').textContent = card.definition;
+            document.getElementById('tapHint').textContent = data.tapHint;
+            document.getElementById('tapHintBack').textContent = data.tapHintBack;
+            
+            const counterText = data.cardOf.replace('{current}', currentIndex + 1).replace('{total}', 14);
+            document.getElementById('counter').textContent = counterText;
+            
+            document.getElementById('progressBar').style.width = `${((currentIndex + 1) / 14) * 100}%`;
+            
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === 13;
+            
+            viewedCards.add(currentIndex);
+            updateDots();
+            
+            // Reset flip state
+            if (isFlipped) {
+                document.getElementById('flashcard').classList.remove('flipped');
+                isFlipped = false;
+            }
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            if (currentIndex < 13) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        function goToCard(index) {
+            currentIndex = index;
+            updateCard();
+        }
+
+        function shuffleCards() {
+            for (let i = cardOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardOrder[i], cardOrder[j]] = [cardOrder[j], cardOrder[i]];
+            }
+            currentIndex = 0;
+            viewedCards.clear();
+            updateCard();
+        }
+
+        function createDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < 14; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.onclick = () => goToCard(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active', 'viewed');
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else if (viewedCards.has(index)) {
+                    dot.classList.add('viewed');
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === 'ArrowLeft') prevCard();
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                flipCard();
+            }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.querySelector('.flashcard-container').addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.querySelector('.flashcard-container').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextCard();
+                } else {
+                    prevCard();
+                }
+            }
+        }
+
+        // Initialize
+        createDots();
+        updateUI();
+        updateCard();
+    </script>
+</body>
+</html>
