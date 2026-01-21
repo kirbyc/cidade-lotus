@@ -30,6 +30,38 @@
             font-size: 1.5rem;
         }
 
+        .intro-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .intro-section.visible {
+            display: block;
+        }
+
+        .intro-toggle {
+            display: block;
+            margin: 0 auto 15px auto;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .intro-toggle:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
         .language-toggle {
             display: flex;
             justify-content: center;
@@ -275,6 +307,12 @@
             <button class="lang-btn" onclick="setLanguage('en')">English</button>
         </div>
 
+        <button class="intro-toggle" id="introToggle" onclick="toggleIntro()">ℹ️ Ver Introdução</button>
+        
+        <div class="intro-section" id="introSection">
+            <p id="introText"></p>
+        </div>
+
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -317,6 +355,9 @@
                 prev: "← Previous",
                 next: "Next →",
                 shuffle: "🔀 Shuffle Cards",
+                introToggleShow: "ℹ️ Show Introduction",
+                introToggleHide: "ℹ️ Hide Introduction",
+                intro: "In this fictional incident, you saw the application of several fundamental ICS characteristics, such as Management by Objectives, Integrated Communications, Incident Facilities, and Span of Control.\n\nHowever, the success of any operation depends on understanding all 14 characteristics that form the foundation of the system. Each one, listed below, is critical for a coordinated and effective response using ICS. To deepen your knowledge and prepare to manage incidents of any size, nature, and complexity, we recommend that you review each characteristic.",
                 cards: [
                     {
                         title: "Common Terminology",
@@ -345,7 +386,7 @@
                     },
                     {
                         title: "Incident Facilities and Locations",
-                        subtitle: "Locais e Instalações no Incidente",
+                        subtitle: "Instalações do Incidente",
                         definition: "Various types of operational and support facilities are established in the vicinity of an incident. Common facilities include the Incident Command Post, Bases, Camps, Staging Areas, Mass Casualty Triage Areas, and others as required."
                     },
                     {
@@ -360,18 +401,18 @@
                     },
                     {
                         title: "Establishment and Transfer of Command",
-                        subtitle: "Estabelecimento e Transferência do Comando",
+                        subtitle: "Estabelecimento e Transferência de Comando",
                         definition: "The command function must be clearly established from the beginning of an incident. When command is transferred, the process includes a briefing that transfers all essential information for continuing safe and effective operations."
-                    },
-                    {
-                        title: "Chain of Command and Unity of Command",
-                        subtitle: "Cadeia de Comando e Unidade de Comando",
-                        definition: "Chain of command refers to the orderly line of authority within the incident management organizational structure. Unity of command means each individual reports to only one designated supervisor, clarifying reporting relationships and eliminating confusion."
                     },
                     {
                         title: "Unified Command",
                         subtitle: "Comando Unificado",
                         definition: "In incidents involving multiple jurisdictions or agencies, Unified Command allows agencies with different legal, geographic, and functional responsibilities to work together effectively without affecting individual agency authority, responsibility, or accountability."
+                    },
+                    {
+                        title: "Chain of Command and Unity of Command",
+                        subtitle: "Cadeia de Comando e Unidade de Comando",
+                        definition: "Chain of command refers to the orderly line of authority within the incident management organizational structure. Unity of command means each individual reports to only one designated supervisor, clarifying reporting relationships and eliminating confusion."
                     },
                     {
                         title: "Accountability",
@@ -380,12 +421,12 @@
                     },
                     {
                         title: "Dispatch/Deployment",
-                        subtitle: "Despacho e Mobilização de Recursos",
+                        subtitle: "Despacho / Mobilização",
                         definition: "Personnel and equipment should be deployed to an incident only when requested by the Incident Command or designated personnel, or when dispatched by competent authority based on prior requisition or deemed necessary by the Incident Command."
                     },
                     {
                         title: "Information and Intelligence Management",
-                        subtitle: "Gerenciamento de Informações e Inteligência",
+                        subtitle: "Gerenciamento de Informação e Inteligência",
                         definition: "The incident organization must establish a process for gathering, analyzing, assessing, and appropriately sharing sensitive information that may be classified as reserved, restricted, or confidential, including establishing controls over who disseminates and who may access such information."
                     }
                 ]
@@ -398,76 +439,79 @@
                 prev: "← Anterior",
                 next: "Próximo →",
                 shuffle: "🔀 Embaralhar",
+                introToggleShow: "ℹ️ Ver Introdução",
+                introToggleHide: "ℹ️ Ocultar Introdução",
+                intro: "Neste incidente fictício, você viu a aplicação de várias características fundamentais do SCI, como Gerenciamento por Objetivos, Comunicações Integradas, Instalações do Incidente e Amplitude de Controle.\n\nNo entanto, o sucesso de qualquer operação depende da compreensão de todas as 14 características que formam a base do sistema. Cada uma delas, listada a seguir, é crítica para uma resposta coordenada e eficaz usando o SCI. Para aprofundar seu conhecimento e se preparar para gerenciar incidentes de qualquer tamanho, natureza e complexidade, recomendamos que você revise cada característica.",
                 cards: [
                     {
                         title: "Terminologia Comum",
                         subtitle: "Common Terminology",
-                        definition: "O uso de uma terminologia comum ajuda a definir as funções organizacionais, instalações de incidentes, descrições de recursos e cargos."
+                        definition: "Usa linguagem padronizada (nomes para funções, recursos, instalações) para evitar confusão e permitir que diferentes organizações trabalhem juntas, com o mesmo entendimento."
                     },
                     {
                         title: "Organização Modular",
                         subtitle: "Modular Organization",
-                        definition: "A estrutura organizacional do comando de incidentes se desenvolve de modo modular com base na dimensão e complexidade do incidente, bem como nos detalhes específicos do risco criado pelo incidente."
+                        definition: "Permite que a estrutura de comando seja modular, expandindo ou contraindo conforme a complexidade e as necessidades do incidente."
                     },
                     {
                         title: "Gerenciamento por Objetivos",
                         subtitle: "Management by Objectives",
-                        definition: "Significa o estabelecimento de objetivos ambiciosos, o desenvolvimento de estratégias baseadas nos objetivos do incidente, o estabelecimento de objetivos específicos e mensuráveis para as diversas atividades funcionais e documentação de resultados para medir o desempenho e facilitar ações de correção."
+                        definition: "Todas as atividades são direcionadas para atingir objetivos específicos e mensuráveis estabelecidos pelo Comando, com planos para cumpri-los."
                     },
                     {
-                        title: "Plano de Ação do Incidente",
+                        title: "Plano de Ação do Incidente (PAI)",
                         subtitle: "Incident Action Plan",
-                        definition: "Os Planos de Ação do Incidente (PAI) fornecem um meio condizente de comunicar os objetivos gerais do incidente nos contextos das atividades operacionais e de apoio."
+                        definition: "Documento que registra e comunica os objetivos, táticas e atribuições para orientar todas as operações de resposta. É essencial em incidentes complexos ou prolongados."
                     },
                     {
                         title: "Amplitude de Controle",
                         subtitle: "Manageable Span of Control",
-                        definition: "O escopo do controle é a chave para um gerenciamento eficaz e eficiente de incidentes. Dentro do SCI, o escopo do controle de qualquer indivíduo com responsabilidade de supervisão deve variar de três a sete subordinados, sendo cinco o ideal."
+                        definition: "Refere-se ao número de subordinados que um supervisor pode gerenciar de forma eficaz (diretriz de 1 para 5). Garante supervisão e comunicação adequadas."
                     },
                     {
-                        title: "Locais e Instalações no Incidente",
+                        title: "Instalações do Incidente",
                         subtitle: "Incident Facilities and Locations",
-                        definition: "São criados vários tipos de locais de instalação de operação e apoio nas proximidades de um incidente. As instalações comuns incluem postos de comando de incidentes, bases, acampamentos, áreas de espera, áreas de triagem de vítimas em massa e outras, conforme o caso."
+                        definition: "Locais específicos estabelecidos para apoiar as operações (ex.: Posto de Comando, Áreas de Espera, Abrigos), escolhidos conforme as necessidades do incidente."
                     },
                     {
                         title: "Gerenciamento Integral de Recursos",
                         subtitle: "Comprehensive Resource Management",
-                        definition: "Manter uma imagem precisa e atualizada dos recursos necessários para a contenção de um incidente é um componente fundamental no gerenciamento de uma emergência. Os recursos são definidos como: pessoal, equipes, equipamentos, suprimentos e instalações disponíveis, em razão da categoria, classe, tipo e capacidade desses recursos."
+                        definition: "Processo para manter e utilizar de forma eficaz os recursos (pessoal, equipamentos, suprimentos), mantendo inventários precisos para alocação adequada."
                     },
                     {
                         title: "Comunicações Integradas",
                         subtitle: "Integrated Communications",
-                        definition: "As comunicações dos incidentes são facilitadas por meio do desenvolvimento e uso de um plano de comunicação comum, distinção clara de comunicação formal, informal e crítica, clareza das informações repassadas e processos e arquiteturas de tecnologia de informação e de comunicação interoperáveis."
+                        definition: "Garante que todas as instituições e unidades envolvidas possam se conectar e compartilhar informações através de sistemas, processos e planos de comunicação interoperáveis."
                     },
                     {
-                        title: "Estabelecimento e Transferência do Comando",
+                        title: "Estabelecimento e Transferência de Comando",
                         subtitle: "Establishment and Transfer of Command",
-                        definition: "A função de comando deve ser claramente estabelecida desde o início de um incidente. Quando o comando é transferido, o processo inclui uma orientação operacional que transfere todas as informações essenciais para operações seguras e eficazes de forma contínua."
-                    },
-                    {
-                        title: "Cadeia de Comando e Unidade de Comando",
-                        subtitle: "Chain of Command and Unity of Command",
-                        definition: "A cadeia de comando refere-se à linha hierárquica de autoridade ordenada dentro da estrutura da organização de gerenciamento de incidentes. A unidade de comando significa que cada indivíduo tem um supervisor designado a quem se reportar no local do incidente. Esses princípios esclarecem as relações de informação e eliminam a confusão."
+                        definition: "O comando é estabelecido pela primeira organização a chegar e pode ser transferido de forma ordenada, sempre com um briefing completo, à medida que o incidente evolui."
                     },
                     {
                         title: "Comando Unificado",
                         subtitle: "Unified Command",
-                        definition: "Em incidentes que envolvem uma única jurisdição com várias agências, ou diversas jurisdições com diferentes agências atuando em conjunto, o Comando Unificado permite que os órgãos com diferentes atribuições legais, geográficas e funcionais trabalhem juntos de maneira eficaz, sem afetar a autoridade, responsabilidade e competência delas."
+                        definition: "Estrutura usada quando o incidente envolve múltiplas jurisdições ou órgãos/instituições, permitindo que todas trabalhem de forma coordenada sob um comando conjunto, mantendo suas próprias autoridades."
+                    },
+                    {
+                        title: "Cadeia de Comando e Unidade de Comando",
+                        subtitle: "Chain of Command and Unity of Command",
+                        definition: "Cadeia de Comando: A linha hierárquica de autoridade. Unidade de Comando: Cada pessoa se reporta a um único supervisor. Juntos, eliminam instruções conflitantes."
                     },
                     {
                         title: "Responsabilização",
                         subtitle: "Accountability",
-                        definition: "A responsabilização efetiva em todos os níveis jurisdicionais e dentro das diferentes áreas funcionais é essencial. Para isso, os seguintes princípios devem ser seguidos: Registro, Plano de Ação do Incidente, Unidade de comando, Responsabilidade pessoal, Amplitude de controle e Rastreamento de recursos."
+                        definition: "Conjunto de princípios para garantir que todos os recursos (pessoas e equipamentos) sejam rastreados, desde o check-in até a supervisão, assegurando controle e segurança."
                     },
                     {
-                        title: "Despacho e Mobilização de Recursos",
+                        title: "Despacho / Mobilização",
                         subtitle: "Dispatch/Deployment",
-                        definition: "O pessoal e o equipamento devem ser empregados em um incidente apenas quando necessário e quando solicitado pelo Comando do Incidente, ou por pessoa por ele designada, ou quando enviados por autoridade competente em razão de uma requisição prévia ou considerada necessária pelo Comando do Incidente."
+                        definition: "Os recursos só devem ser enviados ao local do incidente quando formalmente solicitados e despachados através dos canais oficiais, evitando a mobilização espontânea e descontrolada."
                     },
                     {
-                        title: "Gerenciamento de Informações e Inteligência",
+                        title: "Gerenciamento de Informação e Inteligência",
                         subtitle: "Information and Intelligence Management",
-                        definition: "A EOR, em determinados tipos de incidentes e/ou eventos onde existem informações sensíveis que sejam classificadas como reservadas, restritas e confidenciais, deve estabelecer um processo para a coleta, avaliação, análise e compartilhamento adequado dessas informações por meio de uma célula composta por especialista(s) nessa área."
+                        definition: "Processos para coletar, analisar, compartilhar e gerenciar informações críticas sobre o incidente, garantindo que a equipe de comando tome decisões com base em dados precisos."
                     }
                 ]
             }
@@ -478,6 +522,7 @@
         let cardOrder = [...Array(14).keys()];
         let viewedCards = new Set();
         let isFlipped = false;
+        let introVisible = false;
 
         function setLanguage(lang) {
             currentLanguage = lang;
@@ -485,6 +530,28 @@
             document.querySelector(`.lang-btn[onclick="setLanguage('${lang}')"]`).classList.add('active');
             updateUI();
             updateCard();
+            updateIntro();
+        }
+
+        function toggleIntro() {
+            introVisible = !introVisible;
+            const introSection = document.getElementById('introSection');
+            const introToggle = document.getElementById('introToggle');
+            const data = cardsData[currentLanguage];
+            
+            if (introVisible) {
+                introSection.classList.add('visible');
+                introToggle.textContent = data.introToggleHide;
+            } else {
+                introSection.classList.remove('visible');
+                introToggle.textContent = data.introToggleShow;
+            }
+        }
+
+        function updateIntro() {
+            const data = cardsData[currentLanguage];
+            document.getElementById('introText').textContent = data.intro;
+            document.getElementById('introToggle').textContent = introVisible ? data.introToggleHide : data.introToggleShow;
         }
 
         function updateUI() {
@@ -624,6 +691,7 @@
         createDots();
         updateUI();
         updateCard();
+        updateIntro();
     </script>
 </body>
 </html>
