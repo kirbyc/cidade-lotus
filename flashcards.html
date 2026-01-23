@@ -186,8 +186,8 @@
         }
 
         .card-definition {
-            font-size: 1rem;
-            line-height: 1.5;
+            font-size: 1.25rem;
+            line-height: 1.6;
             max-height: 300px;
             overflow-y: auto;
             padding: 0 10px;
@@ -196,8 +196,19 @@
         .tap-hint {
             position: absolute;
             bottom: 15px;
-            font-size: 0.8rem;
-            opacity: 0.5;
+            font-size: 0.9rem;
+            opacity: 0.85;
+            color: #1e3c72;
+            font-weight: 500;
+        }
+
+        .tap-hint-back {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
         }
 
         .navigation {
@@ -283,7 +294,7 @@
 
         @media (max-width: 480px) {
             .flashcard-container {
-                height: 380px;
+                height: 420px;
             }
             
             .card-title {
@@ -295,7 +306,7 @@
             }
             
             .card-definition {
-                font-size: 0.95rem;
+                font-size: 1.15rem;
             }
             
             .nav-btn {
@@ -344,7 +355,7 @@
                     </div>
                     <div class="flashcard-face flashcard-back">
                         <div class="card-definition" id="cardDefinition">Carregando...</div>
-                        <div class="tap-hint" id="tapHintBack">Toque para voltar</div>
+                        <div class="tap-hint-back" id="tapHintBack">Toque para voltar</div>
                     </div>
                 </div>
             </div>
