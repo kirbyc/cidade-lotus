@@ -113,6 +113,7 @@
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
+            justify-content: center; /* centraliza o único botão */
         }
 
         .btn {
@@ -139,17 +140,6 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(26, 71, 42, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f5f2;
-            color: #1a472a;
-            border: 2px solid #d4e5d9;
-        }
-
-        .btn-secondary:hover {
-            background: #e5ede8;
-            border-color: #1a472a;
         }
 
         .btn:disabled {
@@ -364,9 +354,6 @@
             <button class="btn btn-primary" onclick="generatePDF()" id="generateBtn">
                 <span>📄</span> Gerar PDF
             </button>
-            <button class="btn btn-secondary" onclick="printCertificate()" id="printBtn">
-                <span>🖨️</span> Imprimir
-            </button>
         </div>
 
         <div class="loading" id="loading">
@@ -434,7 +421,6 @@
                     console.error('Error loading logo:', e);
                     reject(e);
                 };
-                // Using a CORS proxy to ensure the image loads
                 img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png';
             });
         }
@@ -480,27 +466,22 @@
         }
 
         function drawFallbackLogo(doc, x, y, width) {
-            // Fallback: Draw a simplified Forest Service logo
             const height = width * 1.1;
             const centerX = x + width / 2;
             const centerY = y + height / 2;
             
-            // Gold border shield
             doc.setFillColor(255, 193, 7);
             doc.roundedRect(x - 2, y - 2, width + 4, height + 4, 5, 5, 'F');
             
-            // Green shield
             doc.setFillColor(26, 71, 42);
             doc.roundedRect(x, y, width, height, 4, 4, 'F');
             
-            // Tree (simplified)
             doc.setFillColor(255, 193, 7);
             const treeX = centerX;
             const treeTop = y + height * 0.15;
             const treeBottom = y + height * 0.75;
             const treeWidth = width * 0.4;
             
-            // Triangle tree
             doc.triangle(
                 treeX, treeTop,
                 treeX - treeWidth/2, treeBottom,
@@ -508,17 +489,14 @@
                 'F'
             );
             
-            // Trunk
             doc.rect(treeX - width * 0.05, treeBottom, width * 0.1, height * 0.15, 'F');
             
-            // U and S
             doc.setFontSize(width * 0.35);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(255, 193, 7);
             doc.text('U', x + width * 0.12, y + height * 0.55);
             doc.text('S', x + width * 0.68, y + height * 0.55);
             
-            // Text at bottom
             doc.setFontSize(width * 0.08);
             doc.setTextColor(255, 193, 7);
         }
@@ -532,11 +510,9 @@
                 return;
             }
 
-            // Show loading
             document.getElementById('loading').classList.add('show');
             document.getElementById('generateBtn').disabled = true;
 
-            // Ensure logo is loaded
             if (!logoLoaded) {
                 try {
                     await loadLogo();
@@ -545,7 +521,6 @@
                 }
             }
 
-            // Small delay to show loading state
             await new Promise(resolve => setTimeout(resolve, 300));
 
             const completionDate = new Date();
@@ -558,27 +533,21 @@
             const pageWidth = doc.internal.pageSize.getWidth();
             const pageHeight = doc.internal.pageSize.getHeight();
 
-            // Clean white background
             doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-            // Top accent bar - Forest Service Green
             doc.setFillColor(26, 71, 42);
             doc.rect(0, 0, pageWidth, 14, 'F');
             
-            // Gold accent line
             doc.setFillColor(255, 193, 7);
             doc.rect(0, 14, pageWidth, 4, 'F');
 
-            // Bottom accent bar
             doc.setFillColor(26, 71, 42);
             doc.rect(0, pageHeight - 14, pageWidth, 14, 'F');
             
-            // Gold accent line bottom
             doc.setFillColor(255, 193, 7);
             doc.rect(0, pageHeight - 18, pageWidth, 4, 'F');
 
-            // Add logo
             const logoWidth = 28;
             const logoHeight = 32;
             const logoX = (pageWidth - logoWidth) / 2;
@@ -595,31 +564,26 @@
                 drawFallbackLogo(doc, logoX, logoY, logoWidth);
             }
 
-            // Organization name under logo
             doc.setTextColor(26, 71, 42);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
             doc.text('U.S. FOREST SERVICE', pageWidth / 2, logoY + logoHeight + 8, { align: 'center' });
 
-            // Certificate header
             doc.setTextColor(120, 120, 120);
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
             doc.text('CERTIFICADO DE CONCLUSÃO', pageWidth / 2, 82, { align: 'center' });
 
-            // Course title
             doc.setTextColor(26, 71, 42);
             doc.setFontSize(30);
             doc.setFont('helvetica', 'bold');
             doc.text('Desastre na Cidade Lótus', pageWidth / 2, 96, { align: 'center' });
 
-            // Subtitle
             doc.setTextColor(90, 125, 106);
             doc.setFontSize(13);
             doc.setFont('helvetica', 'normal');
             doc.text('Simulação do Sistema de Comando de Incidentes', pageWidth / 2, 106, { align: 'center' });
 
-            // Credit hour badge
             doc.setFillColor(255, 193, 7);
             const badgeWidth = 50;
             const badgeHeight = 8;
@@ -632,18 +596,15 @@
             doc.setFont('helvetica', 'bold');
             doc.text('1 HORA DE CRÉDITO', pageWidth / 2, badgeY + 5.5, { align: 'center' });
 
-            // Decorative line
             doc.setDrawColor(255, 193, 7);
             doc.setLineWidth(1);
             doc.line(pageWidth / 2 - 50, 126, pageWidth / 2 + 50, 126);
 
-            // "Certificamos que" text
             doc.setTextColor(120, 120, 120);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
             doc.text('Certificamos que', pageWidth / 2, 136, { align: 'center' });
 
-            // Participant name with accent box
             doc.setFillColor(248, 250, 249);
             const nameBoxWidth = 140;
             const nameBoxHeight = 18;
@@ -651,7 +612,6 @@
             const nameBoxY = 140;
             doc.roundedRect(nameBoxX, nameBoxY, nameBoxWidth, nameBoxHeight, 2, 2, 'F');
             
-            // Gold side accents
             doc.setFillColor(255, 193, 7);
             doc.rect(nameBoxX, nameBoxY, 3, nameBoxHeight, 'F');
             doc.rect(nameBoxX + nameBoxWidth - 3, nameBoxY, 3, nameBoxHeight, 'F');
@@ -661,37 +621,31 @@
             doc.setFont('times', 'bold');
             doc.text(name, pageWidth / 2, 153, { align: 'center' });
 
-            // Completion text
             doc.setTextColor(120, 120, 120);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
             doc.text('concluiu com êxito o treinamento', pageWidth / 2, 166, { align: 'center' });
 
-            // Description
             doc.setTextColor(100, 100, 100);
             doc.setFontSize(10);
             const description = 'Aplicação prática do Sistema de Comando de Incidentes, desde o briefing inicial até o compartilhamento de informações públicas.';
             const splitDescription = doc.splitTextToSize(description, 160);
             doc.text(splitDescription, pageWidth / 2, 176, { align: 'center' });
 
-            // Date
             doc.setTextColor(26, 71, 42);
             doc.setFontSize(10);
             doc.setFont('helvetica', 'bold');
             doc.text('Concluído em: ' + formatDate(completionDate), pageWidth / 2, 190, { align: 'center' });
 
-            // Certificate ID
             doc.setTextColor(180, 180, 180);
             doc.setFontSize(8);
             doc.setFont('helvetica', 'normal');
             const certId = 'ID: ' + generateCertificateId();
             doc.text(certId, pageWidth / 2, pageHeight - 22, { align: 'center' });
 
-            // Save the PDF
             const fileName = 'Certificado_' + name.replace(/\s+/g, '_') + '.pdf';
             doc.save(fileName);
 
-            // Hide loading, show success
             document.getElementById('loading').classList.remove('show');
             document.getElementById('generateBtn').disabled = false;
             showSuccessMessage();
@@ -703,216 +657,6 @@
             return 'USFS-LOTUS-' + timestamp.slice(-6) + '-' + random;
         }
 
-        function printCertificate() {
-            const name = document.getElementById('participantName').value.trim();
-            
-            if (!name) {
-                alert('Por favor, digite seu nome completo.');
-                document.getElementById('participantName').focus();
-                return;
-            }
-
-            const completionDate = new Date();
-            const certId = generateCertificateId();
-
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Certificado - ${name}</title>
-                    <style>
-                        @page {
-                            size: A4 landscape;
-                            margin: 0;
-                        }
-                        * {
-                            margin: 0;
-                            padding: 0;
-                            box-sizing: border-box;
-                        }
-                        body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            background: white;
-                            width: 297mm;
-                            height: 210mm;
-                            position: relative;
-                            overflow: hidden;
-                        }
-                        .top-bar {
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            right: 0;
-                            height: 14mm;
-                            background: #1a472a;
-                        }
-                        .top-accent {
-                            position: absolute;
-                            top: 14mm;
-                            left: 0;
-                            right: 0;
-                            height: 4mm;
-                            background: #ffc107;
-                        }
-                        .bottom-bar {
-                            position: absolute;
-                            bottom: 0;
-                            left: 0;
-                            right: 0;
-                            height: 14mm;
-                            background: #1a472a;
-                        }
-                        .bottom-accent {
-                            position: absolute;
-                            bottom: 14mm;
-                            left: 0;
-                            right: 0;
-                            height: 4mm;
-                            background: #ffc107;
-                        }
-                        .content {
-                            position: absolute;
-                            top: 22mm;
-                            left: 0;
-                            right: 0;
-                            bottom: 22mm;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            padding: 5mm;
-                        }
-                        .logo {
-                            width: 30mm;
-                            height: auto;
-                            margin-bottom: 4mm;
-                        }
-                        .org-name {
-                            font-size: 11pt;
-                            color: #1a472a;
-                            font-weight: bold;
-                            letter-spacing: 2px;
-                            margin-bottom: 5mm;
-                        }
-                        .header {
-                            font-size: 11pt;
-                            color: #888;
-                            letter-spacing: 3px;
-                            margin-bottom: 2mm;
-                        }
-                        .title {
-                            font-size: 30pt;
-                            color: #1a472a;
-                            font-weight: bold;
-                            margin-bottom: 2mm;
-                        }
-                        .subtitle {
-                            font-size: 12pt;
-                            color: #5a7d6a;
-                            margin-bottom: 4mm;
-                        }
-                        .credit-badge {
-                            background: #ffc107;
-                            color: #1a472a;
-                            padding: 2mm 8mm;
-                            border-radius: 4mm;
-                            font-size: 9pt;
-                            font-weight: bold;
-                            margin-bottom: 4mm;
-                        }
-                        .divider {
-                            width: 100mm;
-                            height: 1mm;
-                            background: #ffc107;
-                            margin-bottom: 4mm;
-                        }
-                        .certify {
-                            font-size: 11pt;
-                            color: #888;
-                            margin-bottom: 3mm;
-                        }
-                        .name-box {
-                            background: #f8faf9;
-                            padding: 5mm 20mm;
-                            border-left: 3mm solid #ffc107;
-                            border-right: 3mm solid #ffc107;
-                            margin-bottom: 4mm;
-                        }
-                        .name {
-                            font-size: 22pt;
-                            color: #2d6b3f;
-                            font-family: Georgia, serif;
-                            font-weight: bold;
-                        }
-                        .completion {
-                            font-size: 11pt;
-                            color: #888;
-                            margin-bottom: 3mm;
-                        }
-                        .description {
-                            font-size: 10pt;
-                            color: #666;
-                            max-width: 160mm;
-                            text-align: center;
-                            line-height: 1.5;
-                            margin-bottom: 4mm;
-                        }
-                        .date {
-                            font-size: 10pt;
-                            color: #1a472a;
-                            font-weight: bold;
-                        }
-                        .cert-id {
-                            position: absolute;
-                            bottom: 20mm;
-                            left: 50%;
-                            transform: translateX(-50%);
-                            font-size: 8pt;
-                            color: #bbb;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="top-bar"></div>
-                    <div class="top-accent"></div>
-                    <div class="bottom-accent"></div>
-                    <div class="bottom-bar"></div>
-                    
-                    <div class="content">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png" alt="U.S. Forest Service" class="logo">
-                        <div class="org-name">U.S. FOREST SERVICE</div>
-                        <div class="header">CERTIFICADO DE CONCLUSÃO</div>
-                        <div class="title">Desastre na Cidade Lótus</div>
-                        <div class="subtitle">Simulação do Sistema de Comando de Incidentes</div>
-                        <div class="credit-badge">1 HORA DE CRÉDITO</div>
-                        <div class="divider"></div>
-                        <div class="certify">Certificamos que</div>
-                        <div class="name-box">
-                            <div class="name">${name}</div>
-                        </div>
-                        <div class="completion">concluiu com êxito o treinamento</div>
-                        <div class="description">
-                            Aplicação prática do Sistema de Comando de Incidentes, desde o briefing inicial até o compartilhamento de informações públicas.
-                        </div>
-                        <div class="date">Concluído em: ${formatDate(completionDate)}</div>
-                    </div>
-                    
-                    <div class="cert-id">ID: ${certId}</div>
-                    
-                    <script>
-                        window.onload = function() {
-                            setTimeout(function() {
-                                window.print();
-                            }, 800);
-                        };
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
-
         function showSuccessMessage() {
             const msg = document.getElementById('successMessage');
             msg.classList.add('show');
@@ -921,10 +665,8 @@
             }, 4000);
         }
 
-        // Initialize date preview
         document.getElementById('previewDate').textContent = 'Concluído em: ' + formatDateShort(new Date());
 
-        // Enter key to generate
         document.getElementById('participantName').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 generatePDF();
