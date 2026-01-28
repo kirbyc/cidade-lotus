@@ -6,11 +6,7 @@
     <title>Certificado - Desastre na Cidade Lótus</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,14 +28,8 @@
             text-align: center;
         }
 
-        .logo-container {
-            margin-bottom: 25px;
-        }
-
-        .logo-container img {
-            width: 80px;
-            height: auto;
-        }
+        .logo-container { margin-bottom: 25px; }
+        .logo-container img { width: 80px; height: auto; }
 
         .org-name {
             color: #1a472a;
@@ -75,10 +65,7 @@
             margin-bottom: 25px;
         }
 
-        .form-group {
-            margin-bottom: 28px;
-            text-align: left;
-        }
+        .form-group { margin-bottom: 28px; text-align: left; }
 
         label {
             display: block;
@@ -105,15 +92,13 @@
             box-shadow: 0 0 0 4px rgba(26, 71, 42, 0.1);
         }
 
-        input[type="text"]::placeholder {
-            color: #a0b5a8;
-        }
+        input[type="text"]::placeholder { color: #a0b5a8; }
 
         .btn-group {
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
-            justify-content: center; /* centraliza o único botão */
+            justify-content: center;
         }
 
         .btn {
@@ -155,9 +140,7 @@
             font-size: 0.9rem;
         }
 
-        .loading.show {
-            display: block;
-        }
+        .loading.show { display: block; }
 
         .loading-spinner {
             display: inline-block;
@@ -171,18 +154,10 @@
             margin-right: 10px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .preview-section {
-            margin-top: 35px;
-            display: none;
-        }
-
-        .preview-section.show {
-            display: block;
-        }
+        .preview-section { margin-top: 35px; display: none; }
+        .preview-section.show { display: block; }
 
         .preview-label {
             color: #5a7d6a;
@@ -204,10 +179,7 @@
             box-shadow: 0 8px 30px rgba(26, 71, 42, 0.15);
         }
 
-        .preview-logo {
-            width: 50px;
-            margin-bottom: 12px;
-        }
+        .preview-logo { width: 50px; margin-bottom: 12px; }
 
         .preview-header {
             font-size: 0.65rem;
@@ -288,9 +260,7 @@
             font-weight: 500;
         }
 
-        .success-message.show {
-            display: flex;
-        }
+        .success-message.show { display: flex; }
 
         .footer-note {
             margin-top: 28px;
@@ -300,21 +270,10 @@
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 30px 22px;
-            }
-
-            h1 {
-                font-size: 1.4rem;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                min-width: 100%;
-            }
+            .container { padding: 30px 22px; }
+            h1 { font-size: 1.4rem; }
+            .btn-group { flex-direction: column; }
+            .btn { min-width: 100%; }
         }
 
         @keyframes fadeIn {
@@ -322,28 +281,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .preview-section.show {
-            animation: fadeIn 0.5s ease;
-        }
+        .preview-section.show { animation: fadeIn 0.5s ease; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png" alt="U.S. Forest Service Logo" id="logoImg" crossorigin="anonymous">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png"
+                 alt="U.S. Forest Service Logo" id="logoImg" crossorigin="anonymous">
             <div class="org-name">U.S. FOREST SERVICE</div>
         </div>
-        
+
         <h1>Gerar Certificado de Conclusão</h1>
         <p class="subtitle">Desastre na Cidade Lótus<br>Simulação do Sistema de Comando de Incidentes</p>
-        
+
         <div class="credit-badge">⏱️ 1 Hora de Crédito</div>
 
         <div class="form-group">
             <label for="participantName">Nome Completo do Participante</label>
-            <input 
-                type="text" 
-                id="participantName" 
+            <input
+                type="text"
+                id="participantName"
                 placeholder="Digite seu nome completo..."
                 autocomplete="name"
                 oninput="updatePreview()"
@@ -366,14 +324,14 @@
                 <span>👁️</span> Pré-visualização do Certificado
             </div>
             <div class="certificate-preview">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png" alt="Logo" class="preview-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png"
+                     alt="Logo" class="preview-logo">
                 <div class="preview-header">Certificado de Conclusão</div>
                 <div class="preview-title">Desastre na Cidade Lótus</div>
                 <div class="preview-credit">1 HORA DE CRÉDITO</div>
                 <div class="preview-name" id="previewName">Seu Nome</div>
                 <div class="preview-course">Simulação do Sistema de Comando de Incidentes</div>
 
-                <!-- UPDATED preview text to match PDF + italics for emphasis -->
                 <div class="preview-description">
                     Concluiu com êxito este treinamento sobre aplicação do Sistema de Comando de Incidentes, desde o briefing inicial até o compartilhamento de informações públicas.
                     <br><br>
@@ -396,12 +354,11 @@
 
     <script>
         const { jsPDF } = window.jspdf;
-        
+
         // Logo as base64 - will be loaded
         let logoBase64 = null;
         let logoLoaded = false;
-        
-        // Load and convert logo to base64
+
         function loadLogo() {
             return new Promise((resolve, reject) => {
                 const img = new Image();
@@ -415,30 +372,22 @@
                     try {
                         logoBase64 = canvas.toDataURL('image/png');
                         logoLoaded = true;
-                        console.log('Logo loaded successfully');
                         resolve(logoBase64);
                     } catch (e) {
-                        console.error('Error converting logo:', e);
                         reject(e);
                     }
                 };
-                img.onerror = function(e) {
-                    console.error('Error loading logo:', e);
-                    reject(e);
-                };
+                img.onerror = reject;
                 img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_the_United_States_Forest_Service.svg/1200px-Logo_of_the_United_States_Forest_Service.svg.png';
             });
         }
-        
-        // Pre-load logo on page load
-        loadLogo().catch(err => {
-            console.log('Will use fallback logo drawing');
-        });
+
+        loadLogo().catch(() => {});
 
         function formatDate(date) {
-            const options = { 
-                day: '2-digit', 
-                month: 'long', 
+            const options = {
+                day: '2-digit',
+                month: 'long',
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
@@ -447,11 +396,7 @@
         }
 
         function formatDateShort(date) {
-            const options = { 
-                day: '2-digit', 
-                month: 'long', 
-                year: 'numeric'
-            };
+            const options = { day: '2-digit', month: 'long', year: 'numeric' };
             return date.toLocaleDateString('pt-BR', options);
         }
 
@@ -473,42 +418,37 @@
         function drawFallbackLogo(doc, x, y, width) {
             const height = width * 1.1;
             const centerX = x + width / 2;
-            const centerY = y + height / 2;
-            
+
             doc.setFillColor(255, 193, 7);
             doc.roundedRect(x - 2, y - 2, width + 4, height + 4, 5, 5, 'F');
-            
+
             doc.setFillColor(26, 71, 42);
             doc.roundedRect(x, y, width, height, 4, 4, 'F');
-            
+
             doc.setFillColor(255, 193, 7);
-            const treeX = centerX;
             const treeTop = y + height * 0.15;
             const treeBottom = y + height * 0.75;
             const treeWidth = width * 0.4;
-            
+
             doc.triangle(
-                treeX, treeTop,
-                treeX - treeWidth/2, treeBottom,
-                treeX + treeWidth/2, treeBottom,
+                centerX, treeTop,
+                centerX - treeWidth/2, treeBottom,
+                centerX + treeWidth/2, treeBottom,
                 'F'
             );
-            
-            doc.rect(treeX - width * 0.05, treeBottom, width * 0.1, height * 0.15, 'F');
-            
+
+            doc.rect(centerX - width * 0.05, treeBottom, width * 0.1, height * 0.15, 'F');
+
             doc.setFontSize(width * 0.35);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(255, 193, 7);
             doc.text('U', x + width * 0.12, y + height * 0.55);
             doc.text('S', x + width * 0.68, y + height * 0.55);
-            
-            doc.setFontSize(width * 0.08);
-            doc.setTextColor(255, 193, 7);
         }
 
         async function generatePDF() {
             const name = document.getElementById('participantName').value.trim();
-            
+
             if (!name) {
                 alert('Por favor, digite seu nome completo.');
                 document.getElementById('participantName').focus();
@@ -519,40 +459,34 @@
             document.getElementById('generateBtn').disabled = true;
 
             if (!logoLoaded) {
-                try {
-                    await loadLogo();
-                } catch (e) {
-                    console.log('Using fallback logo');
-                }
+                try { await loadLogo(); } catch (e) {}
             }
 
             await new Promise(resolve => setTimeout(resolve, 300));
 
             const completionDate = new Date();
-            const doc = new jsPDF({
-                orientation: 'landscape',
-                unit: 'mm',
-                format: 'a4'
-            });
+            const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
 
             const pageWidth = doc.internal.pageSize.getWidth();
             const pageHeight = doc.internal.pageSize.getHeight();
 
+            // Background
             doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
+            // Top bars
             doc.setFillColor(26, 71, 42);
             doc.rect(0, 0, pageWidth, 14, 'F');
-            
             doc.setFillColor(255, 193, 7);
             doc.rect(0, 14, pageWidth, 4, 'F');
 
+            // Bottom bars
             doc.setFillColor(26, 71, 42);
             doc.rect(0, pageHeight - 14, pageWidth, 14, 'F');
-            
             doc.setFillColor(255, 193, 7);
             doc.rect(0, pageHeight - 18, pageWidth, 4, 'F');
 
+            // Logo
             const logoWidth = 28;
             const logoHeight = 32;
             const logoX = (pageWidth - logoWidth) / 2;
@@ -562,61 +496,68 @@
                 try {
                     doc.addImage(logoBase64, 'PNG', logoX, logoY, logoWidth, logoHeight);
                 } catch (e) {
-                    console.error('Error adding logo to PDF:', e);
                     drawFallbackLogo(doc, logoX, logoY, logoWidth);
                 }
             } else {
                 drawFallbackLogo(doc, logoX, logoY, logoWidth);
             }
 
+            // Org name
             doc.setTextColor(26, 71, 42);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
             doc.text('U.S. FOREST SERVICE', pageWidth / 2, logoY + logoHeight + 8, { align: 'center' });
 
+            // Header
             doc.setTextColor(120, 120, 120);
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
             doc.text('CERTIFICADO DE CONCLUSÃO', pageWidth / 2, 82, { align: 'center' });
 
+            // Title
             doc.setTextColor(26, 71, 42);
             doc.setFontSize(30);
             doc.setFont('helvetica', 'bold');
             doc.text('Desastre na Cidade Lótus', pageWidth / 2, 96, { align: 'center' });
 
+            // Subtitle
             doc.setTextColor(90, 125, 106);
             doc.setFontSize(13);
             doc.setFont('helvetica', 'normal');
             doc.text('Simulação do Sistema de Comando de Incidentes', pageWidth / 2, 106, { align: 'center' });
 
+            // Credit badge
             doc.setFillColor(255, 193, 7);
             const badgeWidth = 50;
             const badgeHeight = 8;
             const badgeX = (pageWidth - badgeWidth) / 2;
             const badgeY = 112;
             doc.roundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 4, 4, 'F');
-            
+
             doc.setTextColor(26, 71, 42);
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
             doc.text('1 HORA DE CRÉDITO', pageWidth / 2, badgeY + 5.5, { align: 'center' });
 
+            // Divider
             doc.setDrawColor(255, 193, 7);
             doc.setLineWidth(1);
             doc.line(pageWidth / 2 - 50, 126, pageWidth / 2 + 50, 126);
 
+            // "Certificamos que"
             doc.setTextColor(120, 120, 120);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
             doc.text('Certificamos que', pageWidth / 2, 136, { align: 'center' });
 
+            // Name box
             doc.setFillColor(248, 250, 249);
             const nameBoxWidth = 140;
             const nameBoxHeight = 18;
             const nameBoxX = (pageWidth - nameBoxWidth) / 2;
             const nameBoxY = 140;
             doc.roundedRect(nameBoxX, nameBoxY, nameBoxWidth, nameBoxHeight, 2, 2, 'F');
-            
+
             doc.setFillColor(255, 193, 7);
             doc.rect(nameBoxX, nameBoxY, 3, nameBoxHeight, 'F');
             doc.rect(nameBoxX + nameBoxWidth - 3, nameBoxY, 3, nameBoxHeight, 'F');
@@ -626,44 +567,43 @@
             doc.setFont('times', 'bold');
             doc.text(name, pageWidth / 2, 153, { align: 'center' });
 
-            // --------------------------
-            // UPDATED text block under name (your requested copy + italics)
-            // --------------------------
+            // Updated text under the name
             const line1 = 'Concluiu com êxito este treinamento sobre aplicação do Sistema de Comando de Incidentes, desde o briefing inicial até o compartilhamento de informações públicas.';
             const line2 = 'Importante: Este certificado atesta somente a conclusão deste treinamento e não constitui uma qualificação operacional.';
 
             let textY = 166;
 
-            // Line 1 (normal)
             doc.setTextColor(100, 100, 100);
             doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             const split1 = doc.splitTextToSize(line1, 180);
             doc.text(split1, pageWidth / 2, textY, { align: 'center' });
 
-            const lineHeight = 5; // mm per wrapped line
+            const lineHeight = 5;
             textY += split1.length * lineHeight + 3;
 
-            // Line 2 (italic emphasis)
             doc.setTextColor(90, 90, 90);
             doc.setFontSize(10);
             doc.setFont('helvetica', 'italic');
             const split2 = doc.splitTextToSize(line2, 180);
             doc.text(split2, pageWidth / 2, textY, { align: 'center' });
 
-            textY += split2.length * lineHeight + 8;
-
-            // Date (placed after the new text)
-            doc.setTextColor(26, 71, 42);
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Concluído em: ' + formatDate(completionDate), pageWidth / 2, textY, { align: 'center' });
-
+            // Certificate ID (just above bottom bars)
             doc.setTextColor(180, 180, 180);
             doc.setFontSize(8);
             doc.setFont('helvetica', 'normal');
             const certId = 'ID: ' + generateCertificateId();
-            doc.text(certId, pageWidth / 2, pageHeight - 22, { align: 'center' });
+            doc.text(certId, pageWidth / 2, pageHeight - 24, { align: 'center' });
+
+            // Date pinned onto the bottom green bar, in white
+            const dateText = 'Concluído em: ' + formatDate(completionDate);
+            const bottomBarTopY = pageHeight - 14;
+            const dateY = bottomBarTopY + 9; // centered within 14mm bar
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text(dateText, pageWidth / 2, dateY, { align: 'center' });
 
             const fileName = 'Certificado_' + name.replace(/\s+/g, '_') + '.pdf';
             doc.save(fileName);
@@ -682,17 +622,13 @@
         function showSuccessMessage() {
             const msg = document.getElementById('successMessage');
             msg.classList.add('show');
-            setTimeout(() => {
-                msg.classList.remove('show');
-            }, 4000);
+            setTimeout(() => { msg.classList.remove('show'); }, 4000);
         }
 
         document.getElementById('previewDate').textContent = 'Concluído em: ' + formatDateShort(new Date());
 
         document.getElementById('participantName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                generatePDF();
-            }
+            if (e.key === 'Enter') generatePDF();
         });
     </script>
 </body>
