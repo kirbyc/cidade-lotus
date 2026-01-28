@@ -220,6 +220,7 @@
             border-right: 3px solid #ffc107;
         }
 
+        /* (kept, but now not used in HTML preview) */
         .preview-course {
             font-size: 0.8rem;
             color: #5a7d6a;
@@ -330,7 +331,8 @@
                 <div class="preview-title">Desastre na Cidade Lótus</div>
                 <div class="preview-credit">1 HORA DE CRÉDITO</div>
                 <div class="preview-name" id="previewName">Seu Nome</div>
-                <div class="preview-course">Simulação do Sistema de Comando de Incidentes</div>
+
+                <!-- REMOVED: <div class="preview-course">Simulação do Sistema de Comando de Incidentes</div> -->
 
                 <div class="preview-description">
                     Concluiu com êxito este treinamento sobre aplicação do Sistema de Comando de Incidentes, desde o briefing inicial até o compartilhamento de informações públicas.
@@ -520,7 +522,7 @@
             doc.setFont('helvetica', 'bold');
             doc.text('Desastre na Cidade Lótus', pageWidth / 2, 96, { align: 'center' });
 
-            // Subtitle
+            // Subtitle (top section stays)
             doc.setTextColor(90, 125, 106);
             doc.setFontSize(13);
             doc.setFont('helvetica', 'normal');
@@ -567,7 +569,7 @@
             doc.setFont('times', 'bold');
             doc.text(name, pageWidth / 2, 153, { align: 'center' });
 
-            // Updated text under the name
+            // Updated text under the name (kept)
             const line1 = 'Concluiu com êxito este treinamento sobre aplicação do Sistema de Comando de Incidentes, desde o briefing inicial até o compartilhamento de informações públicas.';
             const line2 = 'Importante: Este certificado atesta somente a conclusão deste treinamento e não constitui uma qualificação operacional.';
 
@@ -598,7 +600,7 @@
             // Date pinned onto the bottom green bar, in white
             const dateText = 'Concluído em: ' + formatDate(completionDate);
             const bottomBarTopY = pageHeight - 14;
-            const dateY = bottomBarTopY + 9; // centered within 14mm bar
+            const dateY = bottomBarTopY + 9;
 
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(10);
